@@ -595,14 +595,6 @@ GtkDrawingArea:insensitive {
     background-color: shade(@theme_bg_color, 0.9);
 }
 
-/***********
- * gtkhtml *
- ***********/
-GtkHTML {
-    background-color: @theme_base_color;
-    color: @theme_text_color;
-}
-
 /**************
  * Calendar   *
  **************/
@@ -791,7 +783,7 @@ GtkComboBox.combobox-entry .button:insensitive {
 }
 
 .frame.flat { 
-	border: none;
+	border-style: none;
 	box-shadow: none;
 }
 
@@ -811,7 +803,6 @@ GtkScrolledWindow.frame {
 	border-radius: 0;
 	padding: 0;
 }
-
 
 /* avoid double borders when a viewport is 
  * packed into a GtkScrolledWindow */
@@ -1075,20 +1066,21 @@ GtkInfoBar {
 .menu {
   margin: 4px;
   padding: 0px;
+  color: @menu_fg_color;
   background-color: @menu_bg_color; }
   .menu .menuitem {
     text-shadow: none;
     padding: 4px; }
     .menu .menuitem:hover {
-      color: @theme_selected_fg_color_fg_color;
+      color: @theme_selected_fg_color;
       background-color: @theme_selected_bg_color; }
     .menu .menuitem:insensitive {
-      color: #8d9091; }
+      color: @insensitive_fg_color; }
       .menu .menuitem:insensitive:backdrop {
-        color: #c7c7c7; }
+        color: @insensitive_fg_color; }
     .menu .menuitem:backdrop, .menu .menuitem:backdrop:hover {
-      color: #8d9091;
-      background-color: #fcfcfc; }
+      color: @menu_fg_color;
+      background-color: @menu_bg_color; }
     .menu .menuitem.arrow {
       -gtk-icon-source: -gtk-icontheme("pan-end-symbolic"); }
     .menu .menuitem.arrow:dir(rtl) {
@@ -2169,7 +2161,7 @@ GtkColorButton.button {
  **************/
 .header-bar,
 .header-bar.toolbar {
-    padding: 4px 8px 3px 8px; /* sopra destra sotto sinistra*/
+    padding: 4px 9px 4px 9px; /* sopra destra sotto sinistra*/
     border-width: 0 0 1px 0;
     border-style: solid;
     border-color: shade(@toolbar_bg_color, 0.7);
@@ -2188,6 +2180,9 @@ GtkColorButton.button {
 .header-bar.default-decoration .button.titlebutton {
     padding-top: 3px;
     padding-bottom: 3px;
+/*non-csd windows: left-right padding between titlebuttons */
+	padding-left: 1px; 
+	padding-right: 1px;
 }
 
 .header-bar .button.text-button {
@@ -3177,8 +3172,8 @@ GtkTreeView.view {
   -GtkTreeView-vertical-separator: 2;
   -GtkWidget-focus-line-width: 1px;
   -GtkWidget-focus-padding: 1px;
-  border-left-color: #96999a;
-  border-top-color: #ededed;
+  border-left-color: shade(@bg_color, 0.88);
+  border-top-color: @base_color;
 }
 
 GtkTreeView.view:selected, GtkTreeView.view:backdrop:selected {
@@ -3254,7 +3249,7 @@ GtkTreeView.view.progressbar {
  * viewport *
  ************/
 GtkViewport.frame {
-    border-width: 0;
+    border-style: none;
 }
 
 .view {
@@ -4166,8 +4161,7 @@ GtkBubbleWindow .toolbar {
 }
 
 /*******
- * CSD *  
-bordo finestra
+ * CSD *  bordo finestra
  *******/
 .titlebar {
     border-radius: 3px 3px 0 0;
@@ -4197,7 +4191,8 @@ bordo finestra
 
 
 .titlebar.default-decoration {
-    padding: 2px 4px 2px 4px;
+    padding: 2px 8px 2px 8px; /* non csd-windows button distance from left/right borders
+								 and from top/bottom */
     border-style: none;
     border-color: shade(@toolbar_bg_color, 0.8);
     background-image: none;
@@ -4229,7 +4224,8 @@ bordo finestra
 }
 
 .titlebar .titlebutton {
-    padding: 5px 0px 6px 0px;
+/* csd windows: padding between titlebuttons */
+    padding: 6px 1px 6px 1px;
     border-style: none;
     background: none;
     color: @fg_color;
@@ -4246,8 +4242,13 @@ bordo finestra
     background: none;
     color: shade(@fg_color, 0.7);
     box-shadow: none;
-    padding: 5px 0px 6px 0px;
 }
+
+.titlebar .titlebutton:backdrop {
+    background-image: none;
+    color: @insensitive_fg_color;
+}
+
 
 /*
 .titlebar .right .titlebutton:first-child {
@@ -4265,11 +4266,6 @@ bordo finestra
 }
 */
 
-.titlebar .titlebutton:backdrop {
-    background-image: none;
-    color: @insensitive_fg_color;
-	padding: 5px 0px 6px 0px;
-}
 
 /**********************
  * Window Decorations *
